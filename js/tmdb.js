@@ -9,25 +9,22 @@
  * @param {number|string} tmdbId
  * @returns {Promise<object|null>}
  */
-async function getTMDBMovie(tmdbId) {
-
-    if (!tmdbId) return null;
+async function getTMDBMovie(movie) {
 
     try {
 
         const response = await fetch(
-            `${WORKER_URL}/tmdb/${Number(tmdbId)}`
+            `${WORKER_URL}/tmdb/search/${encodeURIComponent(movie.title)}`
         );
 
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
-        }
+        if (!response.ok)
+            throw new Error("TMDB fetch failed");
 
         return await response.json();
 
     } catch (err) {
 
-        console.error("TMDB Error:", tmdbId, err);
+        console.error(err);
 
         return null;
 
