@@ -11,7 +11,6 @@ let heroIndex = 0;
 let heroInterval = null;
 
 
-
 /*=========================================
             START HERO
 =========================================*/
@@ -26,11 +25,12 @@ heroMovies = [];
 for(const movie of movies){
 
 
-const id =
-movie.tmdb_id ||
-movie.movie_id ||
-movie.id;
+const id = movie.tmdb_id;
 
+if (!id) {
+    console.warn(`Movie "${movie.title}" has no TMDB ID.`);
+    continue;
+}
 
 
 if(!id){
