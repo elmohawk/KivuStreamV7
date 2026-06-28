@@ -1,150 +1,214 @@
-// KIVUSTREAM WATCH PAGE SCRIPT
+// KIVUSTREAM WATCH ENGINE
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async ()=>{
 
-    // Get movie data from URL
-    const params = new URLSearchParams(window.location.search);
 
-    const movieTitle = params.get("movie") || "Unknown Movie";
-    const movieImage = params.get("image") || "assets/images/default.jpg";
-    const movieVideo = params.get("video") || "";
-    const movieDescription = params.get("description") || 
-    "Enjoy watching this movie on KIVUSTREAM.";
+const params = new URLSearchParams(window.location.search);
 
-    // Elements
-    const title = document.getElementById("movie-title");
-    const poster = document.getElementById("movie-poster");
-    const description = document.getElementById("movie-description");
-    const video = document.getElementById("video-player");
 
+// Movie ID from homepage
+const movieId = params.get("id");
 
-    // Load Movie Info
-    if(title){
-        title.textContent = movieTitle;
-    }
 
-    if(poster){
-        poster.src = movieImage;
-    }
+if(!movieId){
 
-    if(description){
-        description.textContent = movieDescription;
-    }
+console.log("No movie selected");
+return;
 
+}
 
-    // Load Video
-    if(video && movieVideo){
 
-        video.src = movieVideo;
 
-    }
+// TMDB API
+const API_KEY = window.TMDB_KEY;
 
+const movieURL =
+`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&append_to_response=videos,credits`;
 
-    // Play Button
-    const playBtn = document.getElementById("play-btn");
 
-    if(playBtn){
 
-        playBtn.addEventListener("click",()=>{
+try{
 
-            if(video){
 
-                video.play();
+const response = await fetch(movieURL);
 
-                playBtn.style.display="none";
+const movie = await response.json();
 
-            }
 
-        });
 
-    }
+// HTML Elements
 
+const title =
+document.querySelector("#movie-title");
 
 
-    // Fullscreen Button
-    const fullscreenBtn = document.getElementById("fullscreen-btn");
+const poster =
+document.querySelector("#movie-poster");
 
 
-    if(fullscreenBtn){
+const description =
+document.querySelector("#movie-description");
 
-        fullscreenBtn.addEventListener("click",()=>{
 
-            if(video.requestFullscreen){
+const rating =
+document.querySelector("#movie-rating");
 
-                video.requestFullscreen();
 
-            }
+const year =
+document.querySelector("#movie-year");
 
-        });
 
-    }
 
+if(title)
+title.textContent = movie.title;
 
 
-    // Back Button
-    const backBtn = document.getElementById("back-btn");
 
-    if(backBtn){
+if(poster)
 
-        backBtn.onclick = ()=>{
+poster.src =
+"https://image.tmdb.org/t/p/w500"+movie.poster_path;
 
-            history.back();
 
-        };
 
-    }
+if(description)
 
+description.textContent =
+movie.overview;
 
 
-    // Related Movies Demo Data
 
-    const relatedMovies = [
+if(rating)
 
-        {
-            title:"Movie One",
-            image:"assets/images/movie1.jpg"
-        },
+rating.textContent =
+"⭐ "+movie.vote_average;
 
-        {
-            title:"Movie Two",
-            image:"assets/images/movie2.jpg"
-        },
 
-        {
-            title:"Anime Collection",
-            image:"assets/images/anime.jpg"
-        }
 
-    ];
+if(year)
 
+year.textContent =
+movie.release_date?.split("-")[0];
 
-    const relatedContainer =
-    document.getElementById("related-movies");
 
 
-    if(relatedContainer){
 
 
-        relatedMovies.forEach(movie=>{
+// Trailer
 
+const trailer =
+movie.videos.results.find(
+v=>v.type==="Trailer"
+);
 
-            relatedContainer.innerHTML += `
 
-            <div class="movie-card">
 
-                <img src="${movie.image}">
+const video =
+document.querySelector("#video-player");
 
-                <h3>${movie.title}</h3>
 
-            </div>
+if(video && trailer){
 
-            `;
 
+video.src =
+"https://www.youtube.com/embed/"+trailer.key;
 
-        });
 
+}
 
-    }
+
+
+
+
+// Play Button
+
+const playBtn =
+document.querySelector("#play-btn");
+
+
+
+if(playBtn){
+
+
+playBtn.onclick=()=>{
+
+
+video.style.display="block";
+
+playBtn.style.display="none";
+
+
+};
+
+
+}
+
+
+
+
+
+// Fullscreen
+
+
+const fullscreen =
+document.querySelector("#fullscreen-btn");
+
+
+
+if(fullscreen){
+
+
+fullscreen.onclick=()=>{
+
+
+video.requestFullscreen();
+
+
+};
+
+
+}
+
+
+
+
+
+// Back Button
+
+
+const back =
+document.querySelector("#back-btn");
+
+
+
+if(back){
+
+
+back.onclick=()=>{
+
+history.back();
+
+};
+
+
+}
+
+
+
+}
+
+
+catch(error){
+
+
+console.error(
+"KIVUSTREAM WATCH ERROR:",
+error
+);
+
+
+}
+
 
 
 });
