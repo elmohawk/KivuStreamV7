@@ -339,3 +339,62 @@ footer{
 }
 
 }
+.hero{
+
+transition:
+opacity .4s ease,
+background-image .8s ease;
+
+}
+
+.hero-meta span{
+
+background:rgba(255,255,255,.08);
+
+backdrop-filter:blur(8px);
+
+}
+
+.hero h1{
+
+text-shadow:
+
+0 5px 25px rgba(0,0,0,.7);
+
+}
+
+.hero p{
+
+max-width:650px;
+
+}
+
+.watch-btn{
+
+font-weight:600;
+
+}
+
+.hero::before{
+
+content:"";
+
+position:absolute;
+
+inset:0;
+
+background:
+
+linear-gradient(
+
+90deg,
+
+rgba(0,0,0,.82),
+
+rgba(0,0,0,.35),
+
+rgba(0,0,0,.82)
+
+);
+
+}
