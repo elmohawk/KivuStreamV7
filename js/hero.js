@@ -117,11 +117,17 @@ nextHero();
 
 
 },8000);
+function autoHero() {
 
+    clearInterval(heroInterval);
+
+    if (heroMovies.length === 0) return;
+
+    heroInterval = setInterval(nextHero, 8000);
+}
 
 
 }
-
 
 
 
