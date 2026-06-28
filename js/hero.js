@@ -101,44 +101,70 @@ function previousHero(){
 /*=========================================
             RENDER
 =========================================*/
-
 function renderHero(movie){
 
-    const hero = document.querySelector(".hero");
 
-    const title = document.getElementById("heroTitle");
+if(!movie){
 
-    const description = document.getElementById("heroDescription");
+console.error("KIVUSTREAM: No hero movie found");
 
-    const meta = document.getElementById("heroMeta");
+return;
 
-    const watch = document.getElementById("heroWatchBtn");
+}
 
-    const trailer = document.getElementById("heroTrailerBtn");
 
-    hero.style.backgroundImage = `url(${movie.backdrop})`;
 
-    title.textContent = movie.title;
+const backdrop = movie.backdrop_path 
+? 
+`https://image.tmdb.org/t/p/original${movie.backdrop_path}`
+:
+"assets/images/default.jpg";
 
-    description.textContent = movie.overview;
 
-    meta.innerHTML = `
-        <span>⭐ ${movie.vote_average.toFixed(1)}</span>
-        <span>${movie.release_date.substring(0,4)}</span>
-        <span>${movie.quality}</span>
-    `;
 
-    watch.href = `watch.html?id=${movie.id}`;
+const title =
+movie.title ||
+movie.name ||
+"Unknown Movie";
 
-    trailer.onclick = ()=>{
 
-        if(movie.trailer){
 
-            window.open(movie.trailer,"_blank");
+const overview =
+movie.overview ||
+"No description available";
 
-        }
 
-    };
+
+document.querySelector("#hero")
+.style.backgroundImage =
+`linear-gradient(
+to right,
+rgba(0,0,0,.9),
+rgba(0,0,0,.2)
+),
+url(${backdrop})`;
+
+
+
+const heroTitle =
+document.querySelector("#hero-title");
+
+
+if(heroTitle)
+
+heroTitle.textContent = title;
+
+
+
+const heroDescription =
+document.querySelector("#hero-description");
+
+
+if(heroDescription)
+
+heroDescription.textContent = overview;
+
+
 
 }
 
