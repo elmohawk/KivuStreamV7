@@ -1,5 +1,6 @@
 "use strict";
 
+
 /*=========================================
             HERO SLIDER
 =========================================*/
@@ -16,13 +17,13 @@ let heroInterval = null;
 =========================================*/
 
 
-async function startHeroSlider(featuredMovies){
+async function startHeroSlider(movies){
 
 
 heroMovies = [];
 
 
-for(const movie of featuredMovies){
+for(const movie of movies){
 
 
 const id =
@@ -46,7 +47,11 @@ const tmdb = await getTMDBMovie(id);
 
 
 
-if(!tmdb) continue;
+if(!tmdb){
+
+continue;
+
+}
 
 
 
@@ -59,6 +64,7 @@ heroMovies.push({
 });
 
 
+
 }
 
 
@@ -66,7 +72,9 @@ heroMovies.push({
 if(heroMovies.length === 0){
 
 
-console.warn("No hero movies loaded");
+console.warn(
+"No hero movies available"
+);
 
 
 return;
@@ -85,9 +93,8 @@ renderHero(heroMovies[0]);
 autoHero();
 
 
+
 }
-
-
 
 
 
@@ -118,7 +125,6 @@ nextHero();
 
 
 
-
 /*=========================================
             NEXT
 =========================================*/
@@ -128,7 +134,6 @@ function nextHero(){
 
 
 heroIndex++;
-
 
 
 if(heroIndex >= heroMovies.length){
@@ -141,13 +146,13 @@ heroIndex = 0;
 
 
 
-renderHero(heroMovies[heroIndex]);
+renderHero(
+heroMovies[heroIndex]
+);
 
 
 
 }
-
-
 
 
 
@@ -155,24 +160,54 @@ renderHero(heroMovies[heroIndex]);
             PREVIOUS
 =========================================*/
 
+
 function previousHero(){
+
 
 heroIndex--;
 
+
 if(heroIndex < 0){
+
+
 heroIndex = heroMovies.length - 1;
+
+
 }
-renderHero(heroMovies[heroIndex]);
+
+
+
+renderHero(
+heroMovies[heroIndex]
+);
+
+
+
 }
+
+
+
+
 /*=========================================
-            RENDER HERO
+            RENDER
 =========================================*/
+
+
 function renderHero(movie){
+
+
+
 if(!movie){
-console.error("No hero movie");
+
+console.error(
+"No hero movie found"
+);
+
 return;
 
 }
+
+
 
 const backdrop = movie.backdrop_path
 
@@ -184,9 +219,16 @@ const backdrop = movie.backdrop_path
 
 "assets/images/default.jpg";
 
+
+
+
+
 const hero = document.querySelector("#hero");
 
+
+
 if(hero){
+
 
 hero.style.backgroundImage =
 
@@ -194,54 +236,86 @@ hero.style.backgroundImage =
 linear-gradient(
 to right,
 rgba(0,0,0,.9),
-rgba(0,0,0,.2)
+rgba(0,0,0,.3)
 ),
-
 url(${backdrop})
-
 `;
+
+
+
 }
+
+
+
 
 const title =
 document.querySelector("#hero-title");
 
+
+
 if(title){
 
 title.textContent =
-movie.title || movie.name;
+movie.title ||
+movie.name ||
+"Unknown";
 
 }
 
+
+
+
 const description =
 document.querySelector("#hero-description");
+
+
 
 if(description){
 
 description.textContent =
 movie.overview ||
 "No description available";
+
 }
+
+
+
+
 }
+
+
+
+
 /*=========================================
-            PAUSE ON HOVER
+            PAUSE
 =========================================*/
 
-const hero =
+
+const heroElement =
 document.querySelector(".hero");
 
-if(hero){
 
-hero.addEventListener("mouseenter",()=>{
+
+if(heroElement){
+
+
+heroElement.addEventListener(
+"mouseenter",
+()=>{
+
 clearInterval(heroInterval);
+
 });
 
-hero.addEventListener("mouseleave",()=>{
+
+
+heroElement.addEventListener(
+"mouseleave",
+()=>{
 
 autoHero();
 
-
 });
-
 
 
 }
