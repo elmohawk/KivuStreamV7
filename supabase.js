@@ -3,10 +3,6 @@
 /*=========================================
         SUPABASE API
 =========================================*/
-const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
 async function getFeaturedMovies() {
 
     const { data, error } = await supabaseClient
