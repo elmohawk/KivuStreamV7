@@ -11,33 +11,29 @@
  */
 async function getTMDBMovie(tmdbId) {
 
+    if (!tmdbId) return null;
+
     try {
 
         const response = await fetch(
-            `${WORKER_URL}/tmdb/${tmdbId}`
+            `${WORKER_URL}/tmdb/${Number(tmdbId)}`
         );
 
         if (!response.ok) {
-            throw new Error("Failed to fetch TMDB data.");
+            throw new Error(`HTTP ${response.status}`);
         }
 
         return await response.json();
 
-    } catch (error) {
+    } catch (err) {
 
-        console.error("TMDB Error:", error);
+        console.error("TMDB Error:", tmdbId, err);
 
         return null;
 
     }
 
 }
-
-/**
- * Update a movie card with TMDB data.
- * @param {HTMLElement} card
- * @param {Object} movie
- */
 async function loadTMDB(card, movie) {
 
     const tmdb = await getTMDBMovie(movie.tmdb_id);
