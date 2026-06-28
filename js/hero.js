@@ -4,24 +4,32 @@
             HERO SLIDER
 =========================================*/
 
+
 let heroMovies = [];
 let heroIndex = 0;
 let heroInterval = null;
+
+
 
 /*=========================================
             START HERO
 =========================================*/
 
+
 async function startHeroSlider(featuredMovies){
 
-    heroMovies = [];
 
-    for(const movie of featuredMovies){
+heroMovies = [];
 
-       const id =
+
+for(const movie of featuredMovies){
+
+
+const id =
 movie.tmdb_id ||
 movie.movie_id ||
 movie.id;
+
 
 
 if(!id){
@@ -33,54 +41,115 @@ continue;
 }
 
 
+
 const tmdb = await getTMDBMovie(id);
-    if(heroMovies.length === 0){
 
-        console.warn("No featured movies found.");
 
-        return;
 
-    }
+if(!tmdb) continue;
 
-    renderHero(heroMovies[0]);
 
-    autoHero();
+
+heroMovies.push({
+
+...movie,
+
+...tmdb
+
+});
+
 
 }
+
+
+
+if(heroMovies.length === 0){
+
+
+console.warn("No hero movies loaded");
+
+
+return;
+
+
+}
+
+
+
+heroIndex = 0;
+
+
+renderHero(heroMovies[0]);
+
+
+autoHero();
+
+
+}
+
+
+
+
 
 /*=========================================
             AUTO PLAY
 =========================================*/
 
+
 function autoHero(){
 
-    clearInterval(heroInterval);
 
-    heroInterval = setInterval(()=>{
+clearInterval(heroInterval);
 
-        nextHero();
 
-    },8000);
+
+heroInterval = setInterval(()=>{
+
+
+nextHero();
+
+
+},8000);
+
+
 
 }
+
+
+
+
 
 /*=========================================
             NEXT
 =========================================*/
 
+
 function nextHero(){
 
-    heroIndex++;
 
-    if(heroIndex >= heroMovies.length){
+heroIndex++;
 
-        heroIndex = 0;
 
-    }
 
-    renderHero(heroMovies[heroIndex]);
+if(heroIndex >= heroMovies.length){
+
+
+heroIndex = 0;
+
 
 }
+
+
+
+renderHero(heroMovies[heroIndex]);
+
+
+
+}
+
+
+
+
 
 /*=========================================
             PREVIOUS
@@ -88,102 +157,91 @@ function nextHero(){
 
 function previousHero(){
 
-    heroIndex--;
+heroIndex--;
 
-    if(heroIndex < 0){
-
-        heroIndex = heroMovies.length-1;
-
-    }
-
-    renderHero(heroMovies[heroIndex]);
-
+if(heroIndex < 0){
+heroIndex = heroMovies.length - 1;
 }
-
+renderHero(heroMovies[heroIndex]);
+}
 /*=========================================
-            RENDER
+            RENDER HERO
 =========================================*/
 function renderHero(movie){
-
-
 if(!movie){
-
-console.error("KIVUSTREAM: No hero movie found");
-
+console.error("No hero movie");
 return;
 
 }
 
+const backdrop = movie.backdrop_path
 
+?
 
-const backdrop = movie.backdrop_path 
-? 
 `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
+
 :
+
 "assets/images/default.jpg";
 
+const hero = document.querySelector("#hero");
 
+if(hero){
 
-const title =
-movie.title ||
-movie.name ||
-"Unknown Movie";
+hero.style.backgroundImage =
 
-
-
-const overview =
-movie.overview ||
-"No description available";
-
-
-
-document.querySelector("#hero")
-.style.backgroundImage =
-`linear-gradient(
+`
+linear-gradient(
 to right,
 rgba(0,0,0,.9),
 rgba(0,0,0,.2)
 ),
-url(${backdrop})`;
 
+url(${backdrop})
 
+`;
+}
 
-const heroTitle =
+const title =
 document.querySelector("#hero-title");
 
+if(title){
 
-if(heroTitle)
-
-heroTitle.textContent = title;
-
-
-
-const heroDescription =
-document.querySelector("#hero-description");
-
-
-if(heroDescription)
-
-heroDescription.textContent = overview;
-
-
+title.textContent =
+movie.title || movie.name;
 
 }
 
+const description =
+document.querySelector("#hero-description");
+
+if(description){
+
+description.textContent =
+movie.overview ||
+"No description available";
+}
+}
 /*=========================================
-            PAUSE
+            PAUSE ON HOVER
 =========================================*/
 
-const hero = document.querySelector(".hero");
+const hero =
+document.querySelector(".hero");
+
+if(hero){
 
 hero.addEventListener("mouseenter",()=>{
-
-    clearInterval(heroInterval);
-
+clearInterval(heroInterval);
 });
 
 hero.addEventListener("mouseleave",()=>{
 
-    autoHero();
+autoHero();
+
 
 });
+
+
+
+}
