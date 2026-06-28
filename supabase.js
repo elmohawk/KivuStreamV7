@@ -52,3 +52,28 @@ async function getMovie(id) {
 
     return data;
 }
+async function getMovies(category){
+
+    const { data,error } = await supabaseClient
+
+        .from("movies")
+
+        .select("*")
+
+        .eq("category",category)
+
+        .eq("is_active",true)
+
+        .order("created_at",{ascending:false});
+
+    if(error){
+
+        console.error(error);
+
+        return [];
+
+    }
+
+    return data;
+
+}
