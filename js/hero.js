@@ -185,37 +185,3 @@ hero.addEventListener("mouseleave",()=>{
     autoHero();
 
 });
-
-
-/*=========================================
-         appp
-=========================================*/
-
-<button id="topBtn">
-    <i class="fa-solid fa-arrow-up"></i>
-</button>
-
-
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
-<!-- Config -->
-<script src="config.js"></script>
-
-
-<!-- Database -->
-<script src="supabase.js"></script>
-
-
-<!-- TMDB FIRST -->
-<script src="js/tmdb.js"></script>
-
-
-<!-- Main App -->
-<script src="js/app.js"></script>
-
-
-<!-- Homepage -->
-<script src="js/hero.js"></script>
-<script src="js/home.js"></script>
