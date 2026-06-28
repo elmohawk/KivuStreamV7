@@ -35,21 +35,30 @@ async function initHome(){
 ==========================================*/
 async function loadHero(){
 
-    const {data,error} = await supabaseClient
-    .from("movies")
-    .select("*")
-    .eq("featured",true);
+
+const {data,error}=await supabaseClient
+.from("movies")
+.select("*")
+.limit(10);
 
 
-    if(error){
 
-        console.error(error);
-        return;
+if(error){
 
-    }
+console.error(error);
+
+return;
+
+}
 
 
-    startHeroSlider(data);
+
+console.log("HERO MOVIES:",data);
+
+
+startHeroSlider(data);
+
+
 
 }
 
