@@ -33,14 +33,23 @@ async function initHome(){
 /*==========================================
             HERO
 ==========================================*/
-
 async function loadHero(){
 
-    const featured = await getFeaturedMovies();
+    const {data,error} = await supabaseClient
+    .from("movies")
+    .select("*")
+    .eq("featured",true);
 
-    if(!featured.length) return;
 
-    startHeroSlider(featured);
+    if(error){
+
+        console.error(error);
+        return;
+
+    }
+
+
+    startHeroSlider(data);
 
 }
 
