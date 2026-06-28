@@ -1,0 +1,341 @@
+/*==================================================
+                HOME PAGE STYLES
+==================================================*/
+
+/* Hero Background Animation */
+.hero{
+    animation:heroZoom 18s ease-in-out infinite alternate;
+}
+
+@keyframes heroZoom{
+    from{
+        background-size:100%;
+    }
+    to{
+        background-size:110%;
+    }
+}
+
+/* Hero Fade */
+.hero-content{
+    animation:fadeUp 1s ease;
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(50px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* Featured Label */
+
+.featured{
+
+    display:inline-block;
+
+    background:#e50914;
+
+    color:#fff;
+
+    padding:8px 18px;
+
+    border-radius:30px;
+
+    font-weight:600;
+
+    margin-bottom:15px;
+
+}
+
+/* Section Heading */
+
+.movie-section h2{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    position:relative;
+
+}
+
+.movie-section h2::after{
+
+    content:"";
+
+    width:70px;
+
+    height:3px;
+
+    background:#e50914;
+
+    margin-left:15px;
+
+}
+
+/* Movie Card */
+
+.movie-card{
+
+    position:relative;
+
+}
+
+.movie-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:linear-gradient(
+    to top,
+    rgba(0,0,0,.95),
+    transparent
+    );
+
+    opacity:0;
+
+    transition:.35s;
+
+}
+
+.movie-card:hover::before{
+
+    opacity:1;
+
+}
+
+/* Play Button */
+
+.movie-card::after{
+
+    content:"▶";
+
+    position:absolute;
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:50%;
+
+    background:#e50914;
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:22px;
+
+    top:50%;
+
+    left:50%;
+
+    transform:translate(-50%,-50%) scale(0);
+
+    transition:.35s;
+
+}
+
+.movie-card:hover::after{
+
+    transform:translate(-50%,-50%) scale(1);
+
+}
+
+/* Movie Info Animation */
+
+.movie-info{
+
+    transition:.35s;
+
+}
+
+.movie-card:hover .movie-info{
+
+    transform:translateY(-5px);
+
+}
+
+/* Rating Badge */
+
+.movie-info p{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+/* HD Badge */
+
+.badge{
+
+    position:absolute;
+
+    top:12px;
+
+    left:12px;
+
+    background:#e50914;
+
+    color:#fff;
+
+    padding:5px 10px;
+
+    border-radius:6px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+}
+
+/* IMDb Badge */
+
+.rating{
+
+    position:absolute;
+
+    top:12px;
+
+    right:12px;
+
+    background:#ffb400;
+
+    color:#000;
+
+    padding:5px 10px;
+
+    border-radius:6px;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+}
+
+/* Trending Hover Glow */
+
+.movie-card:hover{
+
+    box-shadow:
+    0 0 20px rgba(229,9,20,.4),
+    0 0 50px rgba(229,9,20,.2);
+
+}
+
+/* Buttons */
+
+.watch-btn,
+.trailer-btn{
+
+    transition:.3s;
+
+}
+
+.watch-btn:hover{
+
+    box-shadow:
+    0 0 25px rgba(229,9,20,.5);
+
+}
+
+.trailer-btn:hover{
+
+    box-shadow:
+    0 0 20px rgba(255,255,255,.25);
+
+}
+
+/* Scroll Reveal */
+
+.movie-section{
+
+    animation:sectionFade .8s ease;
+
+}
+
+@keyframes sectionFade{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* Footer */
+
+footer{
+
+    background:#080808;
+
+}
+
+.socials i:hover{
+
+    transform:translateY(-6px) rotate(360deg);
+
+}
+
+/* Back To Top */
+
+#topBtn{
+
+    box-shadow:0 0 25px rgba(229,9,20,.4);
+
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+.hero{
+
+    text-align:center;
+
+}
+
+.hero-buttons{
+
+    justify-content:center;
+
+}
+
+.movie-section h2{
+
+    font-size:28px;
+
+}
+
+}
