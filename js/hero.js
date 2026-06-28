@@ -18,20 +18,22 @@ async function startHeroSlider(featuredMovies){
 
     for(const movie of featuredMovies){
 
-        const tmdb = await getTMDBMovie(movie.tmdb_id);
+       const id =
+movie.tmdb_id ||
+movie.movie_id ||
+movie.id;
 
-        if(!tmdb) continue;
 
-        heroMovies.push({
+if(!id){
 
-            ...movie,
+console.warn("Missing TMDB ID:", movie);
 
-            ...tmdb
+continue;
 
-        });
+}
 
-    }
 
+const tmdb = await getTMDBMovie(id);
     if(heroMovies.length === 0){
 
         console.warn("No featured movies found.");
