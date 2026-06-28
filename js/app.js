@@ -246,7 +246,73 @@ document.addEventListener("keydown",(e)=>{
 
 console.log(`
 ====================================
-      KIVUSTREAM
- Premium Movie Streaming Platform
+          KIVUSTREAM
+          IT HAWK_RW
 ====================================
 `);
+"use strict";
+
+
+async function loadMovies(){
+
+
+console.log("KIVUSTREAM Loading Movies...");
+
+
+const {data,error} = await supabaseClient
+.from("movies")
+.select("*");
+
+
+
+if(error){
+
+console.error(
+"SUPABASE ERROR:",
+error
+);
+
+return;
+
+}
+
+
+
+console.log(
+"KIVUSTREAM MOVIES:",
+data
+);
+
+
+
+if(window.startHeroSlider){
+
+
+startHeroSlider(data);
+
+}
+
+
+
+if(window.loadHomeMovies){
+
+
+loadHomeMovies(data);
+
+}
+
+
+
+}
+
+
+
+document.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+
+loadMovies();
+
+
+});
