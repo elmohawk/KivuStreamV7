@@ -4,14 +4,13 @@
             TMDB API SERVICE
 =========================================*/
 
-/**
- * Fetch TMDB metadata through your Worker.
- * @param {Object} movie
- * @returns {Promise<object|null>}
- */
-async function getTMDBMovie(movie) {
+export async function getTMDBMovie(movie) {
 
     try {
+
+        if (!movie || !movie.title) {
+            return null;
+        }
 
         const title = movie.title.trim();
 
@@ -26,12 +25,15 @@ async function getTMDBMovie(movie) {
         return await response.json();
 
     } catch (err) {
+
         console.error("TMDB Error:", err);
         return null;
+
     }
 
-} 
-async function loadTMDB(card, movie) {
+}
+
+export async function loadTMDB(card, movie) {
 
     const tmdb = await getTMDBMovie(movie);
 
@@ -47,28 +49,6 @@ async function loadTMDB(card, movie) {
 
     if (title) {
         title.textContent = tmdb.title;
-    }
-
-}
-export async function getTMDBMovie(movie) {
-
-    try {
-
-        const title = movie.title.trim();
-
-        const response = await fetch(
-            `${WORKER_URL}/tmdb/search/${encodeURIComponent(title)}`
-        );
-
-        if (!response.ok) return null;
-
-        return await response.json();
-
-    } catch(err) {
-
-        console.error(err);
-        return null;
-
     }
 
 }
