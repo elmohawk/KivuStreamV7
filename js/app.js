@@ -275,37 +275,19 @@ error
 return;
 
 }
-
-
-
-console.log(
-"KIVUSTREAM MOVIES:",
-data
-);
-
-
-
+console.log(data[0]);
 if(window.startHeroSlider){
-
 
 startHeroSlider(data);
 
 }
 
-
-
 if(window.loadHomeMovies){
-
 
 loadHomeMovies(data);
 
 }
-
-
-
 }
-
-
 
 document.addEventListener(
 "DOMContentLoaded",
