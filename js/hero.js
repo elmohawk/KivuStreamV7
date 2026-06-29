@@ -263,10 +263,25 @@ movie.overview ||
             PAUSE
 =========================================*/
 
+document.addEventListener("DOMContentLoaded",()=>{
 
-const heroElement =
-document.querySelector(".hero");
+    const heroElement=document.querySelector(".hero");
 
+    if(!heroElement) return;
+
+    heroElement.addEventListener("mouseenter",()=>{
+
+        clearInterval(heroInterval);
+
+    });
+
+    heroElement.addEventListener("mouseleave",()=>{
+
+        autoHero();
+
+    });
+
+});
 
 
 if(heroElement){
