@@ -154,7 +154,6 @@ function loadingCards(){
 
 }
 export async function loadMovieCard(card, movie) {
-
     const tmdb = await getTMDBMovie(movie);
 
     if (!tmdb) return;
@@ -170,9 +169,7 @@ export async function loadMovieCard(card, movie) {
     if (title) {
         title.textContent = tmdb.title;
     }
-
 }
-export { loadMovieCard };
 export function loadSections(data){
 
     loadSection("movie","trending");
