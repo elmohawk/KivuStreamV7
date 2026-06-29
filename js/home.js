@@ -1,3 +1,4 @@
+import { getTMDBMovie } from "./tmdb.js";
 "use strict";
 
 /*==========================================
@@ -123,7 +124,7 @@ function createCard(movie){
 
     `;
 
-    loadTMDB(card,movie);
+   loadMovieCard(card, movie);
 
     card.onclick=()=>{
 
@@ -150,5 +151,24 @@ function loadingCards(){
     `)
 
     .join("");
+
+}
+async function loadMovieCard(card, movie) {
+
+    const tmdb = await getTMDBMovie(movie);
+
+    if (!tmdb) return;
+
+    const poster = card.querySelector(".movie-poster");
+    const title = card.querySelector(".movie-title");
+
+    if (poster) {
+        poster.src = tmdb.poster;
+        poster.alt = tmdb.title;
+    }
+
+    if (title) {
+        title.textContent = tmdb.title;
+    }
 
 }
