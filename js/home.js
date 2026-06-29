@@ -54,12 +54,6 @@ return;
 
 
 console.log("HERO MOVIES:",data);
-
-
-startHeroSlider(data);
-
-
-
 }
 
 /*==========================================
