@@ -15,7 +15,7 @@ let heroInterval = null;
 /*=========================================
             START HERO
 =========================================*/
-async function startHeroSlider(movies) {
+export async function startHeroSlider(movies) {
 
     heroMovies = [];
 
@@ -252,3 +252,4 @@ document.addEventListener("DOMContentLoaded",()=>{
     });
 
 });
+export { startHeroSlider };
