@@ -50,3 +50,25 @@ async function loadTMDB(card, movie) {
     }
 
 }
+export async function getTMDBMovie(movie) {
+
+    try {
+
+        const title = movie.title.trim();
+
+        const response = await fetch(
+            `${WORKER_URL}/tmdb/search/${encodeURIComponent(title)}`
+        );
+
+        if (!response.ok) return null;
+
+        return await response.json();
+
+    } catch(err) {
+
+        console.error(err);
+        return null;
+
+    }
+
+}
