@@ -1,5 +1,6 @@
 import { loadSections } from "./home.js";
 import { loadHero } from "./hero.js";
+document.addEventListener("DOMContentLoaded", loadMovies);
 /*==================================================
                 KIVUSTREAM APP.JS
 ==================================================*/
