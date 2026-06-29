@@ -61,7 +61,7 @@ console.log("HERO MOVIES:",data);
             SECTION
 ==========================================*/
 
-async function loadSection(category,containerId){
+export async function loadSection(category,containerId){
 
     const container=document.getElementById(containerId);
 
@@ -93,7 +93,7 @@ async function loadSection(category,containerId){
             CARD
 ==========================================*/
 
-function createCard(movie){
+export function createCard(movie){
 
     const card=document.createElement("div");
 
@@ -173,3 +173,11 @@ export async function loadMovieCard(card, movie) {
 
 }
 export { loadMovieCard };
+export function loadSections(data){
+
+    loadSection("movie","trending");
+    loadSection("movie","latest");
+    loadSection("series","series");
+    loadSection("anime","anime");
+
+}
