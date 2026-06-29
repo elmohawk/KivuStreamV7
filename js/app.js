@@ -1,6 +1,5 @@
-import { loadHero } from "./hero.js";
 import { loadSections } from "./home.js";
-import { startHeroSlider } from "./hero.js";
+import { loadHero } from "./hero.js";
 /*==================================================
                 KIVUSTREAM APP.JS
 ==================================================*/
