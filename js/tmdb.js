@@ -13,8 +13,10 @@ async function getTMDBMovie(movie) {
 
     try {
 
+        const title = movie.title.trim();
+
         const response = await fetch(
-            `${WORKER_URL}/tmdb/search/${encodeURIComponent(movie.title)}`
+            `${WORKER_URL}/tmdb/search/${encodeURIComponent(title)}`
         );
 
         if (!response.ok)
@@ -25,7 +27,6 @@ async function getTMDBMovie(movie) {
     } catch (err) {
 
         console.error(err);
-
         return null;
 
     }
