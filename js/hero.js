@@ -15,7 +15,7 @@ let heroInterval = null;
 /*=========================================
             START HERO
 =========================================*/
-export async function startHeroSlider(movies) {
+export async function loadHero(movies) {
 
     heroMovies = [];
 
