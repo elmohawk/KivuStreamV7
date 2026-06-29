@@ -3,3 +3,6 @@ name = "kivustream-api"
 main = "src/index.js"
 
 compatibility_date = "2026-06-28"
+
+[vars]
+TMDB_API_KEY = "8b8937bf3e114fa3502358a4f090c0df"
