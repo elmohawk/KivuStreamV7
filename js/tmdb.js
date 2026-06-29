@@ -33,22 +33,3 @@ export async function getTMDBMovie(movie) {
 
 }
 
-export async function loadTMDB(card, movie) {
-
-    const tmdb = await getTMDBMovie(movie);
-
-    if (!tmdb) return;
-
-    const poster = card.querySelector(".movie-poster");
-    const title = card.querySelector(".movie-title");
-
-    if (poster && tmdb.poster) {
-        poster.src = tmdb.poster;
-        poster.alt = tmdb.title;
-    }
-
-    if (title) {
-        title.textContent = tmdb.title;
-    }
-
-}
