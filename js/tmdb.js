@@ -19,18 +19,13 @@ async function getTMDBMovie(movie) {
             `${WORKER_URL}/tmdb/search/${encodeURIComponent(title)}`
         );
 
-        if (!response.ok)
-            throw new Error("TMDB fetch failed");
-
+      if (!response.ok)
+    return null;
         return await response.json();
 
     } catch (err) {
 
-        console.error(err);
         return null;
-
-    }
-
 }
 async function loadTMDB(card, movie) {
 
