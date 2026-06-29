@@ -255,46 +255,28 @@ console.log(`
 
 async function loadMovies(){
 
+    console.log("KIVUSTREAM Loading Movies...");
 
-console.log("KIVUSTREAM Loading Movies...");
+    const { data, error } = await supabaseClient
+        .from("movies")
+        .select("*");
 
+    if(error){
+        console.error("SUPABASE ERROR:", error);
+        return;
+    }
 
-const {data,error} = await supabaseClient
-.from("movies")
-.select("*");
+    if(!data || data.length === 0){
+        console.warn("No movies found");
+        return;
+    }
 
+    console.log("Movies loaded:", data.length);
 
-
-if(error){
-
-console.error(
-"SUPABASE ERROR:",
-error
-);
-
-return;
-
-}
-console.log(data[0]);
-if(window.startHeroSlider){
-
-startHeroSlider(data);
+    // 👇 DIRECT CALLS (NO window.*)
+    await loadHero(data);
+    await loadSections(data);
 
 }
 
-if(window.loadHomeMovies){
-
-loadHomeMovies(data);
-
-}
-}
-
-document.addEventListener(
-"DOMContentLoaded",
-()=>{
-
-
-loadMovies();
-
-
-});
+document.addEventListener("DOMContentLoaded", loadMovies);
