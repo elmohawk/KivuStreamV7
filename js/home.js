@@ -153,7 +153,7 @@ function loadingCards(){
     .join("");
 
 }
-async function loadMovieCard(card, movie) {
+export async function loadMovieCard(card, movie) {
 
     const tmdb = await getTMDBMovie(movie);
 
@@ -172,3 +172,4 @@ async function loadMovieCard(card, movie) {
     }
 
 }
+export { loadMovieCard };
