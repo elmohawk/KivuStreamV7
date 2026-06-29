@@ -24,35 +24,21 @@ heroMovies = [];
 
 for(const movie of movies){
 
+let tmdb;
 
-const id = movie.tmdb_id;
+try{
 
-if (!id) {
-    console.warn(`Movie "${movie.title}" has no TMDB ID.`);
+    tmdb = await getTMDBMovie(id);
+
+}catch(err){
+
+    console.error(err);
+
     continue;
-}
-
-
-if(!id){
-
-console.warn("Missing TMDB ID:", movie);
-
-continue;
 
 }
 
-
-
-const tmdb = await getTMDBMovie(id);
-
-
-
-if(!tmdb){
-
-continue;
-
-}
-
+if(!tmdb) continue;
 
 
 heroMovies.push({
@@ -103,34 +89,15 @@ autoHero();
 =========================================*/
 
 
-function autoHero(){
-
-
-clearInterval(heroInterval);
-
-
-
-heroInterval = setInterval(()=>{
-
-
-nextHero();
-
-
-},8000);
 function autoHero() {
 
     clearInterval(heroInterval);
 
-    if (heroMovies.length === 0) return;
+    if(heroMovies.length === 0) return;
 
     heroInterval = setInterval(nextHero, 8000);
-}
-
 
 }
-
-
-
 /*=========================================
             NEXT
 =========================================*/
