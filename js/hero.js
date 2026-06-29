@@ -1,3 +1,4 @@
+import { getTMDBMovie } from "./tmdb.js";
 "use strict";
 
 
