@@ -1,3 +1,5 @@
+import { loadHero } from "./hero.js";
+import { loadSections } from "./home.js";
 import { startHeroSlider } from "./hero.js";
 /*==================================================
                 KIVUSTREAM APP.JS
@@ -274,9 +276,9 @@ async function loadMovies(){
 
     console.log("Movies loaded:", data.length);
 
-    // 👇 DIRECT CALLS (NO window.*)
+    // ✅ NOW EVERYTHING CONNECTS
     await loadHero(data);
-    await loadSections(data);
+    loadSections(data);
 
 }
 
