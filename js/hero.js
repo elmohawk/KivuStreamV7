@@ -14,76 +14,45 @@ let heroInterval = null;
 /*=========================================
             START HERO
 =========================================*/
+async function startHeroSlider(movies) {
 
+    heroMovies = [];
 
-async function startHeroSlider(movies){
+    for (const movie of movies) {
 
+        try {
 
-heroMovies = [];
+            const tmdb = await getTMDBMovie(movie);
 
+            if (!tmdb) continue;
 
-for(const movie of movies){
+            heroMovies.push({
+                ...movie,
+                ...tmdb
+            });
 
-let tmdb;
+        } catch (err) {
 
-try{
+            console.error("TMDB Error:", err);
 
-    tmdb = await getTMDBMovie(id);
+        }
 
-}catch(err){
+    }
 
-    console.error(err);
+    if (heroMovies.length === 0) {
 
-    continue;
+        console.warn("No hero movies available");
+        return;
 
-}
+    }
 
-if(!tmdb) continue;
+    heroIndex = 0;
 
+    renderHero(heroMovies[0]);
 
-heroMovies.push({
-
-...movie,
-
-...tmdb
-
-});
-
-
-
-}
-
-
-
-if(heroMovies.length === 0){
-
-
-console.warn(
-"No hero movies available"
-);
-
-
-return;
-
+    autoHero();
 
 }
-
-
-
-heroIndex = 0;
-
-
-renderHero(heroMovies[0]);
-
-
-autoHero();
-
-
-
-}
-
-
-
 /*=========================================
             AUTO PLAY
 =========================================*/
@@ -282,28 +251,3 @@ document.addEventListener("DOMContentLoaded",()=>{
     });
 
 });
-
-
-if(heroElement){
-
-
-heroElement.addEventListener(
-"mouseenter",
-()=>{
-
-clearInterval(heroInterval);
-
-});
-
-
-
-heroElement.addEventListener(
-"mouseleave",
-()=>{
-
-autoHero();
-
-});
-
-
-}
