@@ -94,7 +94,6 @@ function previousHero() {
 /*=========================================
             RENDER
 =========================================*/
-
 function renderHero(movie) {
 
     if (!movie) {
@@ -102,13 +101,14 @@ function renderHero(movie) {
         return;
     }
 
-  const backdrop = movie.backdrop_path
-    ? `${TMDB_IMAGE}${movie.backdrop_path}`
-    : "assets/images/default.jpg";
+    const backdrop = movie.backdrop_path
+        ? `${TMDB_IMAGE}${movie.backdrop_path}`
+        : "assets/images/default.jpg";
 
-    const hero = document.querySelector("#hero");
+    const hero = document.querySelector(".hero");
 
     if (hero) {
+
         hero.style.backgroundImage = `
             linear-gradient(
                 to right,
@@ -117,22 +117,27 @@ function renderHero(movie) {
             ),
             url(${backdrop})
         `;
+
     }
 
-    const title = document.querySelector("#hero-title");
+    const title = document.querySelector("#heroTitle");
 
     if (title) {
-        title.textContent = movie.title || movie.name || "Unknown";
+        title.textContent =
+            movie.title || movie.name || "Unknown";
     }
 
-    const description = document.querySelector("#hero-description");
+    const description =
+        document.querySelector("#heroDescription");
 
     if (description) {
+
         description.textContent =
             movie.overview || "No description available";
-    }
-}
 
+    }
+
+}
 /*=========================================
             PAUSE ON HOVER
 =========================================*/
