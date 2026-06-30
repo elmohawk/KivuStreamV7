@@ -1,5 +1,5 @@
-import { TMDB_IMAGE } from "./config.js";
 import { getTMDBMovie } from "./tmdb.js";
+import { TMDB_IMAGE } from "./config.js";
 "use strict";
 
 /*=========================================
