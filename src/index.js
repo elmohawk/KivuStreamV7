@@ -16,14 +16,11 @@ export default {
         }
 
         // Home
-        if (url.pathname === "/") {
+      if (url.pathname === "/") {
 
-            return Response.json({
-                status: "online",
-                api: "KIVUSTREAM"
-            }, {
-                headers
-            });
+    return new Response("HELLO FROM MY WORKER");
+
+}
 
         }
 
