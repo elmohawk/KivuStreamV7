@@ -1,5 +1,6 @@
 import { loadSections } from "./home.js";
 import { loadHero } from "./hero.js";
+import { supabaseClient } from "./config.js";
 document.addEventListener("DOMContentLoaded", loadMovies);
 /*==================================================
                 KIVUSTREAM APP.JS
@@ -281,5 +282,3 @@ async function loadMovies(){
     loadSections(data);
 
 }
-
-document.addEventListener("DOMContentLoaded", loadMovies);
