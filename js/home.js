@@ -5,32 +5,6 @@ import { getTMDBMovie } from "./tmdb.js";
             KIVUSTREAM HOME
 ==========================================*/
 
-document.addEventListener("DOMContentLoaded", initHome);
-
-async function initHome(){
-
-    try{
-
-        await loadHero();
-
-        await loadSection("movie","trending");
-
-        await loadSection("movie","latest");
-
-        await loadSection("series","series");
-
-        await loadSection("anime","anime");
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-    }
-
-}
-
 /*==========================================
             HERO
 ==========================================*/
@@ -60,35 +34,29 @@ console.log("HERO MOVIES:",data);
 /*==========================================
             SECTION
 ==========================================*/
+export function loadSection(movies, containerId) {
 
-export async function loadSection(category,containerId){
+    const container = document.getElementById(containerId);
 
-    const container=document.getElementById(containerId);
+    if (!container) return;
 
-    if(!container) return;
+    container.innerHTML = "";
 
-    container.innerHTML=loadingCards();
+    if (!movies || movies.length === 0) {
 
-    const movies=await getMovies(category);
-
-    if(!movies.length){
-
-        container.innerHTML="<p>No content available.</p>";
+        container.innerHTML = "<p>No content available.</p>";
 
         return;
 
     }
 
-    container.innerHTML="";
-
-    movies.forEach(movie=>{
+    movies.forEach(movie => {
 
         container.appendChild(createCard(movie));
 
     });
 
 }
-
 /*==========================================
             CARD
 ==========================================*/
@@ -162,7 +130,9 @@ export async function loadMovieCard(card, movie) {
     const title = card.querySelector(".movie-title");
 
     if (poster) {
-        poster.src = tmdb.poster;
+        poster.src = tmdb.poster_path
+    ? `https://image.tmdb.org/t/p/w500${tmdb.poster_path}`
+    : "assets/images/default.jpg";
         poster.alt = tmdb.title;
     }
 
@@ -172,9 +142,24 @@ export async function loadMovieCard(card, movie) {
 }
 export function loadSections(data){
 
-    loadSection("movie","trending");
-    loadSection("movie","latest");
-    loadSection("series","series");
-    loadSection("anime","anime");
+    loadSection(
+        data.filter(movie => movie.category === "movie"),
+        "trending"
+    );
+
+    loadSection(
+        data.filter(movie => movie.category === "movie"),
+        "latest"
+    );
+
+    loadSection(
+        data.filter(movie => movie.category === "series"),
+        "series"
+    );
+
+    loadSection(
+        data.filter(movie => movie.category === "anime"),
+        "anime"
+    );
 
 }
