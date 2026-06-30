@@ -1,3 +1,4 @@
+import { WORKER_URL } from "./config.js";
 "use strict";
 
 /*=========================================
