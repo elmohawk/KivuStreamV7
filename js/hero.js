@@ -1,3 +1,4 @@
+import { TMDB_IMAGE } from "./config.js";
 import { getTMDBMovie } from "./tmdb.js";
 "use strict";
 
@@ -101,9 +102,9 @@ function renderHero(movie) {
         return;
     }
 
-    const backdrop = movie.backdrop_path
-        ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
-        : "assets/images/default.jpg";
+  const backdrop = movie.backdrop_path
+    ? `${TMDB_IMAGE}${movie.backdrop_path}`
+    : "assets/images/default.jpg";
 
     const hero = document.querySelector("#hero");
 
