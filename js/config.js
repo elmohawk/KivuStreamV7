@@ -11,9 +11,6 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 export const WORKER_URL =
     "https://kivustream.mrhawk2007.workers.dev";
 
-export const TMDB_IMAGE =
-    "https://image.tmdb.org/t/p/original";
-
 export const supabaseClient =
     supabase.createClient(
         SUPABASE_URL,
