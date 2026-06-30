@@ -6,32 +6,6 @@ import { getTMDBMovie } from "./tmdb.js";
 ==========================================*/
 
 /*==========================================
-            HERO
-==========================================*/
-async function loadHero(){
-
-
-const {data,error}=await supabaseClient
-.from("movies")
-.select("*")
-.limit(10);
-
-
-
-if(error){
-
-console.error(error);
-
-return;
-
-}
-
-
-
-console.log("HERO MOVIES:",data);
-}
-
-/*==========================================
             SECTION
 ==========================================*/
 export function loadSection(movies, containerId) {
