@@ -1,5 +1,3 @@
-import { getTMDBMovie } from "./tmdb.js";
-import { TMDB_IMAGE } from "./config.js";
 "use strict";
 
 /*=========================================
@@ -14,33 +12,14 @@ let heroInterval = null;
             LOAD HERO
 =========================================*/
 
-export async function loadHero(movies) {
+export function loadHero(movies) {
 
-    heroMovies = [];
-
-    for (const movie of movies) {
-
-        try {
-
-            const tmdb = await getTMDBMovie(movie);
-
-            if (!tmdb) continue;
-
-            heroMovies.push({
-                ...movie,
-                ...tmdb
-            });
-
-        } catch (err) {
-            console.error("TMDB Error:", err);
-        }
-    }
-
-    if (heroMovies.length === 0) {
+    if (!movies || movies.length === 0) {
         console.warn("No hero movies available");
         return;
     }
 
+    heroMovies = movies;
     heroIndex = 0;
 
     renderHero(heroMovies[0]);
@@ -56,9 +35,10 @@ function autoHero() {
 
     clearInterval(heroInterval);
 
-    if (heroMovies.length === 0) return;
+    if (heroMovies.length <= 1) return;
 
     heroInterval = setInterval(nextHero, 8000);
+
 }
 
 /*=========================================
@@ -74,6 +54,7 @@ function nextHero() {
     }
 
     renderHero(heroMovies[heroIndex]);
+
 }
 
 /*=========================================
@@ -89,23 +70,25 @@ function previousHero() {
     }
 
     renderHero(heroMovies[heroIndex]);
+
 }
 
 /*=========================================
-            RENDER
+            RENDER HERO
 =========================================*/
+
 function renderHero(movie) {
 
-    if (!movie) {
-        console.error("No hero movie found");
-        return;
-    }
-
-    const backdrop = movie.backdrop_path
-        ? `${TMDB_IMAGE}${movie.backdrop_path}`
-        : "assets/images/default.jpg";
+    if (!movie) return;
 
     const hero = document.querySelector(".hero");
+
+    const backdrop =
+        movie.backdrop ||
+        movie.image ||
+        movie.poster ||
+        movie.thumbnail ||
+        "assets/images/default.jpg";
 
     if (hero) {
 
@@ -123,8 +106,12 @@ function renderHero(movie) {
     const title = document.querySelector("#heroTitle");
 
     if (title) {
+
         title.textContent =
-            movie.title || movie.name || "Unknown";
+            movie.title ||
+            movie.name ||
+            "Unknown Title";
+
     }
 
     const description =
@@ -133,27 +120,34 @@ function renderHero(movie) {
     if (description) {
 
         description.textContent =
-            movie.overview || "No description available";
+            movie.overview ||
+            movie.description ||
+            "No description available.";
 
     }
 
 }
+
 /*=========================================
             PAUSE ON HOVER
 =========================================*/
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const heroElement = document.querySelector(".hero");
+    const hero = document.querySelector(".hero");
 
-    if (!heroElement) return;
+    if (!hero) return;
 
-    heroElement.addEventListener("mouseenter", () => {
+    hero.addEventListener("mouseenter", () => {
+
         clearInterval(heroInterval);
+
     });
 
-    heroElement.addEventListener("mouseleave", () => {
+    hero.addEventListener("mouseleave", () => {
+
         autoHero();
+
     });
 
 });
