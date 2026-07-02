@@ -1,4 +1,3 @@
-import { getTMDBMovie } from "./tmdb.js";
 "use strict";
 
 /*==========================================
@@ -8,6 +7,7 @@ import { getTMDBMovie } from "./tmdb.js";
 /*==========================================
             SECTION
 ==========================================*/
+
 export function loadSection(movies, containerId) {
 
     const container = document.getElementById(containerId);
@@ -19,7 +19,6 @@ export function loadSection(movies, containerId) {
     if (!movies || movies.length === 0) {
 
         container.innerHTML = "<p>No content available.</p>";
-
         return;
 
     }
@@ -31,46 +30,53 @@ export function loadSection(movies, containerId) {
     });
 
 }
+
 /*==========================================
             CARD
 ==========================================*/
 
-export function createCard(movie){
+export function createCard(movie) {
 
-    const card=document.createElement("div");
+    const card = document.createElement("div");
 
-    card.className="movie-card";
+    card.className = "movie-card";
 
-    card.innerHTML=`
+    const poster =
+        movie.poster ||
+        movie.image ||
+        movie.thumbnail ||
+        "assets/images/default.jpg";
+
+    const title =
+        movie.title ||
+        movie.name ||
+        "Unknown Title";
+
+    card.innerHTML = `
 
         <img
-            src=""
-            data-tmdb="${movie.tmdb_id}"
-            alt=""
+            src="${poster}"
+            alt="${title}"
             class="movie-poster"
         >
 
         <div class="movie-info">
 
             <h3 class="movie-title">
-                Loading...
+                ${title}
             </h3>
 
             <p class="movie-quality">
-
-                ${movie.quality}
-
+                ${movie.quality || ""}
             </p>
 
         </div>
 
     `;
 
-   loadMovieCard(card, movie);
+    card.onclick = () => {
 
-    card.onclick=()=>{
-
-        location.href=`watch.html?id=${movie.id}`;
+        location.href = `watch.html?id=${movie.id}`;
 
     };
 
@@ -82,39 +88,56 @@ export function createCard(movie){
         LOADING PLACEHOLDER
 ==========================================*/
 
-function loadingCards(){
+export function loadingCards() {
 
     return Array(8)
-
-    .fill(`
-
-        <div class="movie-card skeleton"></div>
-
-    `)
-
-    .join("");
+        .fill(`
+            <div class="movie-card skeleton"></div>
+        `)
+        .join("");
 
 }
-export async function loadMovieCard(card, movie) {
-    const tmdb = await getTMDBMovie(movie);
 
-    if (!tmdb) return;
+/*==========================================
+        LOAD MOVIE CARD
+==========================================*/
+
+export function loadMovieCard(card, movie) {
 
     const poster = card.querySelector(".movie-poster");
     const title = card.querySelector(".movie-title");
 
     if (poster) {
-        poster.src = tmdb.poster_path
-    ? `https://image.tmdb.org/t/p/w500${tmdb.poster_path}`
-    : "assets/images/default.jpg";
-        poster.alt = tmdb.title;
+
+        poster.src =
+            movie.poster ||
+            movie.image ||
+            movie.thumbnail ||
+            "assets/images/default.jpg";
+
+        poster.alt =
+            movie.title ||
+            movie.name ||
+            "Movie";
+
     }
 
     if (title) {
-        title.textContent = tmdb.title;
+
+        title.textContent =
+            movie.title ||
+            movie.name ||
+            "Unknown Title";
+
     }
+
 }
-export function loadSections(data){
+
+/*==========================================
+            LOAD SECTIONS
+==========================================*/
+
+export function loadSections(data) {
 
     loadSection(
         data.filter(movie => movie.category === "movie"),
