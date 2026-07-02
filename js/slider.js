@@ -1,110 +1,87 @@
-/*==================================================
-            KIVUSTREAM HERO SLIDER
-==================================================*/
-
 "use strict";
 
+/*==================================================
+            HERO SLIDER (SUPABASE)
+==================================================*/
+
+let heroMovies = [];
+let current = 0;
+let interval = null;
+
+const hero = document.querySelector(".hero");
+const title = document.querySelector(".hero h1");
+const description = document.querySelector(".hero p");
+const watchBtn = document.querySelector(".watch-btn");
+const meta = document.querySelector(".hero-meta");
+
 /*==============================
-        HERO MOVIES
+        LOAD HERO
 ==============================*/
 
-const heroMovies = [
+export function loadHero(movies) {
 
-{
-title:"Avatar: Fire & Ash",
-year:"2026",
-rating:"8.9",
-quality:"4K UHD",
-genre:"Action • Adventure • Sci-Fi",
-description:"Experience Pandora like never before with breathtaking visuals, unforgettable characters and epic battles.",
-background:"assets/backdrops/avatar.jpg",
-link:"watch.html?id=avatar"
-},
+    if (!movies || movies.length === 0) {
+        console.warn("No hero movies found.");
+        return;
+    }
 
-{
-title:"Superman",
-year:"2026",
-rating:"8.6",
-quality:"4K UHD",
-genre:"Action • Fantasy",
-description:"A new generation of heroes rises as Superman faces his greatest challenge.",
-background:"assets/backdrops/superman.jpg",
-link:"watch.html?id=superman"
-},
+    heroMovies = movies;
+    current = 0;
 
-{
-title:"The Batman II",
-year:"2026",
-rating:"8.8",
-quality:"4K UHD",
-genre:"Crime • Thriller",
-description:"Gotham becomes darker than ever as Batman hunts a mysterious new enemy.",
-background:"assets/backdrops/batman2.jpg",
-link:"watch.html?id=batman2"
-},
+    showSlide(current);
+    startSlider();
 
-{
-title:"Spider-Man",
-year:"2026",
-rating:"8.7",
-quality:"HD",
-genre:"Action • Adventure",
-description:"Peter Parker returns for another thrilling adventure across the multiverse.",
-background:"assets/backdrops/spiderman.jpg",
-link:"watch.html?id=spiderman"
 }
 
-];
-
 /*==============================
-        ELEMENTS
+        SHOW SLIDE
 ==============================*/
 
-const hero=document.querySelector(".hero");
-const title=document.querySelector(".hero h1");
-const description=document.querySelector(".hero p");
-const watchBtn=document.querySelector(".watch-btn");
+function showSlide(index) {
 
-const meta=document.querySelector(".hero-meta");
+    const movie = heroMovies[index];
 
-let current=0;
-let interval;
+    if (!movie) return;
 
-/*==============================
-        CHANGE SLIDE
-==============================*/
+    hero.style.opacity = "0";
 
-function showSlide(index){
+    setTimeout(() => {
 
-const movie=heroMovies[index];
+        hero.style.backgroundImage = `
+            linear-gradient(
+                to right,
+                rgba(0,0,0,.8),
+                rgba(0,0,0,.3)
+            ),
+            url(${movie.backdrop || "assets/images/default.jpg"})
+        `;
 
-hero.style.opacity="0";
+        title.textContent =
+            movie.title || "Untitled";
 
-setTimeout(()=>{
+        description.textContent =
+            movie.description ||
+            movie.overview ||
+            "No description available.";
 
-hero.style.backgroundImage=`url(${movie.background})`;
+        if (watchBtn) {
+            watchBtn.href = `watch.html?id=${movie.id}`;
+        }
 
-title.textContent=movie.title;
+        if (meta) {
 
-description.textContent=movie.description;
+            meta.innerHTML = `
+                <span>⭐ ${movie.rating || "N/A"}</span>
+                <span>${movie.year || ""}</span>
+                <span>${movie.quality || ""}</span>
+                <span>${movie.genre || ""}</span>
+            `;
 
-watchBtn.href=movie.link;
+        }
 
-meta.innerHTML=`
+        hero.style.opacity = "1";
 
-<span>⭐ ${movie.rating}</span>
-
-<span>${movie.year}</span>
-
-<span>${movie.quality}</span>
-
-<span>${movie.genre}</span>
-
-`;
-
-hero.style.opacity="1";
-
-},300);
+    }, 300);
 
 }
 
@@ -112,17 +89,31 @@ hero.style.opacity="1";
         NEXT
 ==============================*/
 
-function nextSlide(){
+function nextSlide() {
 
-current++;
+    current++;
 
-if(current>=heroMovies.length){
+    if (current >= heroMovies.length) {
+        current = 0;
+    }
 
-current=0;
+    showSlide(current);
 
 }
 
-showSlide(current);
+/*==============================
+        PREVIOUS
+==============================*/
+
+function previousSlide() {
+
+    current--;
+
+    if (current < 0) {
+        current = heroMovies.length - 1;
+    }
+
+    showSlide(current);
 
 }
 
@@ -130,55 +121,55 @@ showSlide(current);
         AUTO PLAY
 ==============================*/
 
-function startSlider(){
+function startSlider() {
 
-interval=setInterval(nextSlide,8000);
+    clearInterval(interval);
+
+    if (heroMovies.length <= 1) return;
+
+    interval = setInterval(nextSlide, 8000);
 
 }
-
-startSlider();
 
 /*==============================
         PAUSE ON HOVER
 ==============================*/
 
-hero.addEventListener("mouseenter",()=>{
+if (hero) {
 
-clearInterval(interval);
+    hero.addEventListener("mouseenter", () => {
 
-});
+        clearInterval(interval);
 
-hero.addEventListener("mouseleave",()=>{
+    });
 
-startSlider();
+    hero.addEventListener("mouseleave", () => {
 
-});
+        startSlider();
+
+    });
+
+}
 
 /*==============================
         KEYBOARD
 ==============================*/
 
-document.addEventListener("keydown",(e)=>{
+document.addEventListener("keydown", (e) => {
 
-if(e.key==="ArrowRight"){
+    if (heroMovies.length === 0) return;
 
-nextSlide();
+    if (e.key === "ArrowRight") {
 
-}
+        nextSlide();
 
-if(e.key==="ArrowLeft"){
+    }
 
-current--;
+    if (e.key === "ArrowLeft") {
 
-if(current<0){
+        previousSlide();
 
-current=heroMovies.length-1;
-
-}
-
-showSlide(current);
-
-}
+    }
 
 });
 
@@ -186,43 +177,33 @@ showSlide(current);
         TOUCH SWIPE
 ==============================*/
 
-let touchStart=0;
-let touchEnd=0;
+let touchStart = 0;
+let touchEnd = 0;
 
-hero.addEventListener("touchstart",(e)=>{
+if (hero) {
 
-touchStart=e.changedTouches[0].screenX;
+    hero.addEventListener("touchstart", (e) => {
 
-});
+        touchStart = e.changedTouches[0].screenX;
 
-hero.addEventListener("touchend",(e)=>{
+    });
 
-touchEnd=e.changedTouches[0].screenX;
+    hero.addEventListener("touchend", (e) => {
 
-if(touchStart-touchEnd>50){
+        touchEnd = e.changedTouches[0].screenX;
 
-nextSlide();
+        if (touchStart - touchEnd > 50) {
 
-}
+            nextSlide();
 
-if(touchEnd-touchStart>50){
+        }
 
-current--;
+        if (touchEnd - touchStart > 50) {
 
-if(current<0){
+            previousSlide();
 
-current=heroMovies.length-1;
+        }
 
-}
-
-showSlide(current);
+    });
 
 }
-
-});
-
-/*==============================
-        INITIAL
-==============================*/
-
-showSlide(current);
